@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Payments | Инновационная лояльность</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        #second-price{
+            display: none;
+        }
+        #main-price{
+            display: none;
+        }
+        #text-after{
+            display: none;
+        }
+        #menu{
+            display: none;
+        }
+        #menuBtn{
+            display: none;
+        }
+        :root {
+            --primary: #6366f1;
+            --secondary: #10b981;
+            --accent: #f59e0b;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Хедер с стеклянным эффектом */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(15px);
+            z-index: 1000;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+            padding: 1rem 0;
+        }
+
+        .nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1.5rem;
+            text-decoration: none;
+            margin-left: -7%;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Герой секция */
+        .hero {
+            min-height: 100vh;
+            padding: 8rem 2rem 4rem;
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            text-align: center;
+            color: white;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 2rem;
+            line-height: 1.2;
+            text-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: white;
+            color: var(--primary);
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        /* Секция функций */
+        .features {
+            padding: 6rem 2rem;
+            background: white;
+        }
+
+        .features-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+            text-align: left;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+            color: white;
+        }
+
+        /* Секция подписки */
+        .subscribe-section {
+            padding: 4rem 2rem;
+            background: var(--light);
+        }
+
+        .subscribe-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 30px;
+            padding: 3rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            text-align: center;
+            position: relative;
+        }
+
+        .close-form {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #64748b;
+            transition: color 0.3s;
+            display: none;
+        }
+
+        .close-form:hover {
+            color: var(--primary);
+        }
+
+        .subscribe-form {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .email-input {
+            flex: 1 1 300px;
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 15px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .email-input:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+
+        .subscribe-btn {
+            background: var(--gradient);
+            color: white;
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: transform 0.3s;
+            text-decoration: underline;
+            font-size: 1.05rem;
+        }
+
+        /* Футер */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 4rem 2rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--primary);
+        }
+
+        @media (max-width: 768px) {
+            .menu-btn {
+            position: fixed;
+            top: 20px;
+            right: 10px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 2005;
+        }
+        .burger-menu {
+          z-index: 2006;
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 250px;
+            height: 100%;
+            background: #561bb6;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            transition: left 0.3s ease;
+        }
+        .burger-menu a{
+            position: relative;
+            top: 4vh;
+            color: white;
+            text-decoration: none;
+            margin: 10px 0;
+            display: block;
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            text-align: left;
+            margin-left: 3%;
+        }
+        .burger-menu .cta-btn{
+            width: min(25vh);
+            background: white;
+            text-decoration: none;
+            margin: 10px 0;
+            display: block;
+            margin-top: 10vh;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            text-align: center;
+            margin-left: -3%;
+        }
+        .burger-menu a:hover, .burger-menu button:hover {
+            text-decoration: underline;
+        }
+        
+        .burger-menu .close-btn {
+            font-size: 24px;
+            background: none;
+            border: none;
+            color: white;
+            text-align: right;
+            cursor: pointer;
+        }
+        .menu-open {
+            left: 0;
+        }
+            #menu{
+                display: block;
+            }
+            #menuBtn{
+                display: block;
+            }
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .subscribe-container {
+                padding: 2rem;
+            }
+            .close-form {
+                top: 15px;
+                right: 15px;
+                font-size: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .close-form {
+                top: 10px;
+                right: 10px;
+                font-size: 18px;
+            }
+        }
+        
+
+
+        /* Секция тарифов */
+    .pricing-section {
+        padding: 6rem 2rem;
+        background: var(--light);
+    }
+
+    .pricing-grid {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        padding: 2rem 0;
+    }
+
+    .price-card {
+        background: white;
+        padding: 2.5rem;
+        border-radius: 25px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        transition: transform 0.3s;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .price-card:hover {
+        transform: translateY(-10px);
+    }
+
+    .price-card.popular {
+        border: 2px solid var(--primary);
+        transform: scale(1.05);
+    }
+
+    .price-card.popular::after {
+        content: 'Купить сейчас';
+        position: absolute;
+        top: 15px;
+        right: -30px;
+        background: var(--primary);
+        color: white;
+        padding: 0.3rem 2rem;
+        transform: rotate(45deg);
+        font-size: 0.8rem;
+        font-weight: 600;
+    }
+
+    .price {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--dark);
+        margin: 1.5rem 0;
+    }
+
+    .price-period {
+        color: #64748b;
+        font-size: 1rem;
+    }
+
+    .price-features {
+        list-style: none;
+        margin: 2rem 0;
+    }
+
+    .price-features li {
+        padding: 0.5rem 0;
+        display: flex;
+        align-items: center;
+        gap: 0.7rem;
+    }
+
+    .price-features i {
+        color: var(--primary);
+    }
+
+
+    .intro-section {
+    padding: 6rem 2rem;
+    background: white;
+}
+
+.intro-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    gap: 4rem;
+    align-items: center;
+}
+
+.intro-image {
+    flex: 1;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+}
+
+.intro-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.intro-content {
+    flex: 1;
+}
+
+.intro-content h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--dark);
+    line-height: 1.3;
+}
+
+.intro-content p {
+    margin-bottom: 2rem;
+    color: #64748b;
+    font-size: 1.1rem;
+}
+
+@media (max-width: 768px) {
+    .intro-container {
+        flex-direction: column;
+        gap: 2rem;
+    }
+    
+    .intro-content h2 {
+        font-size: 2rem;
+    }
+    
+    .intro-image {
+        order: -1;
+    }
+}
+
+
+.industries-section {
+    padding: 6rem 2rem;
+    background: var(--light);
+}
+
+.industries-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.industries-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.industries-header h2 {
+    font-size: 2.5rem;
+    color: var(--dark);
+    margin-bottom: 1rem;
+}
+
+.industries-header p {
+    color: #64748b;
+    font-size: 1.1rem;
+}
+
+.industries-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    padding: 0 1rem;
+}
+
+.industry-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 20px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    border: 1px solid #e2e8f0;
+    width: 100%;
+}
+
+.industry-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+.industry-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.industry-icon.cafe { background: #fff7ed; color: #c2410c; }
+.industry-icon.retail { background: #f0fdf4; color: #15803d; }
+.industry-icon.services { background: #eff6ff; color: #1d4ed8; }
+.industry-icon.brand { background: #faf5ff; color: #7e22ce; }
+
+.industry-card h3 {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    color: var(--dark);
+}
+
+.industry-features {
+    list-style: none;
+    margin: 1.5rem 0;
+    padding-left: 0;
+}
+
+.industry-features li {
+    padding: 0.5rem 0;
+    display: flex;
+    align-items: start;
+    gap: 0.7rem;
+    line-height: 1.5;
+}
+
+.industry-features li:before {
+    content: "✓";
+    color: var(--secondary);
+    font-weight: 700;
+}
+
+.industry-btn {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s;
+}
+
+.industry-btn:hover {
+    gap: 1rem;
+    color: var(--accent);
+}
+
+
+.industry-card.not-found {
+    background: var(--gradient);
+    color: white;
+    border: none;
+}
+
+/* Новые цвета иконок */
+.industry-icon.marketplace { background: #ffedd5; color: #f59e0b; }
+.industry-icon.entertainment { background: #f3e8ff; color: #9333ea; }
+.industry-icon.sto { background: #dbeafe; color: #3b82f6; }
+.industry-icon.custom { background: #dcfce7; color: #22c55e; }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="nav">
+            <a href="#" class="logo">QRPay</a>
+            <div class="nav-links">
+                <a href="#features">Возможности</a>
+                <a href="#pricing">Тарифы</a>
+                <a href="#contact">Контакты</a>
+            </div>
+            <button id="menuBtn" class="menu-btn">☰</button>
+
+        </nav>
+    </header>
+    <div id="menu" class="burger-menu">
+        <button id="closeBtn" class="close-btn" style="float: right;">✖</button>
+      <a href="#features">Возможности</a>
+      <a href="#pricing">Тарифы</a>
+      <a href="#contact">Контакты</a>
+      <!-- <button class="cta-btn">Связаться с админом</button> -->
+  </div>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Инновационная система лояльности через QR-платежи</h1>
+            <a href="#contact" class="cta-btn">
+                <i class="fas fa-rocket"></i>
+                Начать сейчас
+            </a>
+        </div>
+    </section>
+
+    <section class="features" id="features">
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-qrcode"></i>
+                </div>
+                <h3>Лояльность</h3>
+                <p>QR-код вместо физ. карт лояльностей - клиенты копят баллы, даже не замечая этого!</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3>Аналитика в реальном времени</h3>
+                <p>Видите, кто покупает чаще всего - и делаете им выгодное предложение первыми.Полная информация о ваших клиентах.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fa-solid fa-percent"></i>
+                </div>
+                <h3>Скидки</h3>
+                <p>Персональные предложения в 1 клик - ваши покупатели чувствуют себя особенными.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fa-solid fa-list-check"></i>
+                </div>
+                <h3>Профиль</h3>
+                <p>Вся история покупок в телефоне клиента - никаких потерянных карт и забытых баллов</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fa-solid fa-bell"></i>
+                </div>
+                <h3>Уведомления</h3>
+                <p>Автоматически напоминаем клиентам о накопленных баллах - они возвращаются сами. Увеличьте количество повторных продаж!</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fa-solid fa-building-columns"></i>
+                </div>
+                <h3>Для бизнеса</h3>
+                <p>Подключение за 20 минут - никаких сложных настроек и дорогих разработок</p>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- После секции hero -->
+<section class="intro-section">
+    <div class="intro-container">
+        <div class="intro-image">
+            <img src="https://lh3.googleusercontent.com/KuE2BFgHpa417h1KXq1XZvN4ReCRaWOVKTzw5z6YkpmD92WKl6XkKk3ksUSRrE8daFA=w700" alt="Наша платформа">
+        </div>
+        <div class="intro-content">
+            <h2>Преобразуйте ваш бизнес с помощью цифровых решений</h2>
+            <p>QRPay предлагает инновационный подход к взаимодействию с клиентами. Наша платформа объединяет удобные QR-систему лояльности и глубокую аналитику в едином решении. Получайте детальную информацию о Ваших клиентах, статистику о выручке в одном приложении.</p>
+            <a href="#contact" class="cta-btn">
+                <i class="fas fa-play"></i>
+                Начать сейчас
+            </a>
+        </div>
+    </div>
+</section>
+
+
+<!-- После любой секции, например после intro-section -->
+<section class="industries-section">
+    <div class="industries-container">
+        <div class="industries-header">
+            <h2>Идеальное решение для</h2>
+            <p>Наша платформа адаптируется под любые бизнес-задачи</p>
+        </div>
+        
+        <div class="industries-grid">
+            <!-- Кофейни -->
+            <div class="industries-grid">
+                <!-- Рестораны и кафе -->
+                <div class="industry-card">
+                    <div class="industry-icon cafe">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <h3>Рестораны и кафе</h3>
+                    <ul class="industry-features">
+                        <li>Программа лояльности для постоянных гостей</li>
+                        <li>Уведомления об акциях и скидках</li>
+                        <li>QR-код для удобного взаимодействия</li>
+                    </ul>
+                    <a href="https://t.me/gre_zamza" class="industry-btn">Подробнее →</a>
+                </div>
+    
+                <!-- Ритейл -->
+                <div class="industry-card">
+                    <div class="industry-icon retail">
+                        <i class="fas fa-store"></i>
+                    </div>
+                    <h3>Ритейл</h3>
+                    <ul class="industry-features">
+                        <li>Персональные скидки и бонусы</li>
+                        <li>Аналитика покупок и вовлечённости клиентов</li>
+                        <li>Автоматизированные рассылки акций</li>
+                    </ul>
+                    <a href="https://t.me/gre_zamza" class="industry-btn">Подробнее →</a>
+                </div>
+    
+                <!-- Маркетплейсы -->
+                <div class="industry-card">
+                    <div class="industry-icon marketplace">
+                        <i class="fas fa-box-open"></i>
+                    </div>
+                    <h3>Продавцы Маркетплейсов</h3>
+                    <ul class="industry-features">
+                        <li>Лояльность для постоянных покупателей</li>
+                        <li>Автоматизированные уведомления о скидках</li>
+                        <li>Аналитика активности клиентов</li>
+                    </ul>
+                    <a href="https://t.me/gre_zamza" class="industry-btn">Подробнее →</a>
+                </div>
+    
+                <!-- Услуги -->
+                <div class="industry-card">
+                    <div class="industry-icon services">
+                        <i class="fas fa-concierge-bell"></i>
+                    </div>
+                    <h3>Сфера услуг</h3>
+                    <ul class="industry-features">
+                        <li>Бонусная система и скидки</li>
+                        <li>Мгновенные уведомления о новых предложениях</li>
+                        <li>Простое взаимодействие с клиентами</li>
+                    </ul>
+                    <a href="https://t.me/gre_zamza" class="industry-btn">Подробнее →</a>
+                </div>
+    
+                <!-- Личный бренд -->
+                <div class="industry-card">
+                    <div class="industry-icon brand">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <h3>Личный бренд</h3>
+                    <ul class="industry-features">
+                        <li>Персонализированные QR-коды</li>
+                        <li>Программа поощрения подписчиков</li>
+                        <li>Автоматизированные напоминания и акции</li>
+                    </ul>
+                    <a href="https://t.me/gre_zamza" class="industry-btn">Подробнее →</a>
+                </div>
+    
+                <!-- Развлечения -->
+                <div class="industry-card">
+                    <div class="industry-icon entertainment">
+                        <i class="fas fa-ticket-alt"></i>
+                    </div>
+                    <h3>Индустрия развлечений</h3>
+                    <ul class="industry-features">
+                        <li>Программы лояльности для гостей</li>
+                        <li>Напоминания о мероприятиях и скидках</li>
+                        <li>Аналитика посещаемости</li>
+                    </ul>
+                    <a href="https://t.me/gre_zamza" class="industry-btn">Подробнее →</a>
+                </div>
+    
+                <!-- СТО -->
+                <div class="industry-card">
+                    <div class="industry-icon sto">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <h3>Автосервисы (СТО)</h3>
+                    <ul class="industry-features">
+                        <li>Система бонусов для клиентов</li>
+                        <li>Автоуведомления о спецпредложениях</li>
+                        <li>Статистика посещений и активности</li>
+                    </ul>
+                    <a href="https://t.me/gre_zamza" class="industry-btn">Подробнее →</a>
+                </div>
+    
+                <!-- Не нашли -->
+                <div class="industry-card not-found">
+                    <div class="industry-icon custom">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3>Не нашли свой бизнес?</h3>
+                    <ul class="industry-features">
+                        <li>Индивидуальные решения</li>
+                        <li>Персональный менеджер</li>
+                        <li>Бесплатная консультация</li>
+                    </ul>
+                    <a href="https://t.me/gre_zamza" class="industry-btn">Связаться →</a>
+                </div>
+            </div>
+    </div>
+</section>
+
+
+    <!-- После секции hero -->
+    <section class="intro-section">
+        <div class="intro-container">
+            <div class="intro-image">
+                <img src="https://static.tildacdn.com/tild3034-3336-4563-b132-376235306561/IMG_6469.PNG" alt="Наша платформа">
+            </div>
+            <div class="intro-content">
+                <h2>QRPay — это умная система лояльности в Telegram, которая превращает обычных покупателей в постоянных клиентов</h2>
+                <p>С помощью QR-кодов гости вашего заведения моментально попадают в приложение, где копят баллы за покупки, получают персональные скидки и видят свою историю посещений. Вам больше не нужны пластиковые карты или дорогие приложения — вся лояльность работает через привычный мессенджер. А встроенная аналитика покажет, кто из клиентов готов к повторной покупке, и подскажет, какую акцию запустить именно сейчас. Простое подключение, мгновенный результат и довольные гости, которые возвращаются снова и снова</p>
+                <a href="#contact" class="cta-btn">
+                    <i class="fas fa-play"></i>
+                    Начать сейчас
+                </a>
+            </div>
+        </div>
+    </section>
+    
+
+    <!-- Добавляем в тело сайта после секции features -->
+<section class="pricing-section" id="pricing">
+    <div class="industries-header">
+        <h2>Тарифы</h2>
+        <p>Наша платформа адаптируется под любые бизнес-задачи</p>
+    </div>
+    <div class="pricing-grid">
+        <div class="price-card">
+            <div class="feature-icon">
+                <i class="fas fa-star"></i>
+            </div>
+            <h3>Тариф А</h3>
+            <div class="price">0.99$<span class="price-period">/мес</span></div>
+            <div class="price-period">Подписка на полгода 5.94$</div>
+            <ul class="price-features">
+                <li><i class="fas fa-check"></i>Гибкая система лояльности</li>
+                <li><i class="fas fa-check"></i>Эксклюзивные бонусы</li>
+               
+                <li><i class="fas fa-check"></i>Приоритетная поддержка</li>
+                <li><i class="fas fa-check"></i>Персональный менеджер</li>
+            </ul>
+            <!-- <a href="" class="subscribe-btn" id="second-tarif">Выбрать</a> -->
+            <button class="subscribe-btn" id="second-tarif">Выбрать</button>
+        </div>
+
+        <div class="price-card popular">
+            <div class="feature-icon">
+                <i class="fas fa-gem"></i>
+            </div>
+            <h3>Основной тариф</h3>
+            <div class="price">2.99$<span class="price-period">/мес</span></div>
+            <div class="price-period">Подписка на месяц</div>
+            <ul class="price-features">
+                <li><i class="fas fa-check"></i>Поддержка 24/7</li>
+                <li><i class="fas fa-check"></i>Гибкая система лояльности</li>
+                <li><i class="fas fa-check"></i>Дополнительные бонусы</li>
+                
+            </ul>
+            
+           <!--  <a href="" class="subscribe-btn" id="main-tarif">Выбрать</a> -->
+            <button class="subscribe-btn" id="main-tarif">Выбрать</button>
+        </div>
+        
+    </div>
+</section>
+
+<section class="subscribe-section" id="contact">
+    <div class="subscribe-container">
+        <button class="close-form" id="closeForm">✖</button>
+        <h2 id="price-before">Первыми получайте новости</h2>
+        <h2 id="second-price">5.94$</h2>
+        <h2 id="main-price">2.99$</h2>
+        <p id="text-after">Оставьте свою почту, скоро с вами свяжется администратор</p>
+        <p id="text-before">Подпишитесь на эксклюзивные обновления и спецпредложения</p>
+        <form id="subscriptionForm" action="https://api.web3forms.com/submit" method="POST" class="subscribe-form">
+            <input type="hidden" name="access_key" value="f87f24f1-7b95-486b-84fd-09c3c848a00c">
+            <input type="hidden" name="price" id="selectedPrice">
+            <input type="email" name="email" required class="email-input" placeholder="Ваш email">
+            <button type="submit" class="subscribe-btn">Подписаться</button>
+        </form>  
+    </div>
+</section>
+    <footer>
+        <div class="footer-content">
+            <div>
+                <h4>Контакты</h4>
+                <p>+375 44 761 10 13</p>
+                <p>gr-pay.info@gmail.com</p>
+            </div>
+            <div>
+                <h4>Соцсети</h4>
+                <div class="social-links">
+                    <a href="https://t.me/gre_zamza"><i class="fab fa-telegram"></i></a>
+                    <a href="#"><i class="fab fa-vk"></i></a>
+                    <a href="https://t.me/gre_zamza"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+<script>
+                   document.addEventListener('DOMContentLoaded', function() {
+            // Бургер-меню
+            const menuBtn = document.getElementById('menuBtn');
+            const closeBtn = document.getElementById('closeBtn');
+            const menu = document.getElementById('menu');
+            const contactSection = document.getElementById('contact');
+            const priceForm = document.getElementById('subscriptionForm');
+            const selectedPrice = document.getElementById('selectedPrice');
+
+            document.getElementById('second-tarif').addEventListener('click', function() {
+                const elements = {
+                    textBefore: document.getElementById('text-before'),
+                    secondPrice: document.getElementById('second-price'),
+                    textAfter: document.getElementById('text-after'),
+                    priceBefore: document.getElementById('price-before'),
+                    mainPrice: document.getElementById('main-price'),
+                    closeForm: document.getElementById('closeForm'),
+                    selectedPrice: document.getElementById('selectedPrice')
+                };
+
+                if (elements.textBefore) elements.textBefore.style.display = 'none';
+                if (elements.secondPrice) elements.secondPrice.style.display = 'block';
+                if (elements.textAfter) elements.textAfter.style.display = 'block';
+                if (elements.priceBefore) elements.priceBefore.style.display = 'none';
+                if (elements.mainPrice) elements.mainPrice.style.display = 'none';
+                if (elements.closeForm) elements.closeForm.style.display = 'block';
+                if (elements.selectedPrice) elements.selectedPrice.value = '5.94$';
+                
+                if (contactSection) {
+                    contactSection.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+
+            document.getElementById('main-tarif').addEventListener('click', function() {
+                const elements = {
+                    textBefore: document.getElementById('text-before'),
+                    secondPrice: document.getElementById('second-price'),
+                    textAfter: document.getElementById('text-after'),
+                    priceBefore: document.getElementById('price-before'),
+                    mainPrice: document.getElementById('main-price'),
+                    closeForm: document.getElementById('closeForm'),
+                    selectedPrice: document.getElementById('selectedPrice')
+                };
+
+                if (elements.textBefore) elements.textBefore.style.display = 'none';
+                if (elements.secondPrice) elements.secondPrice.style.display = 'none';
+                if (elements.textAfter) elements.textAfter.style.display = 'block';
+                if (elements.priceBefore) elements.priceBefore.style.display = 'none';
+                if (elements.mainPrice) elements.mainPrice.style.display = 'block';
+                if (elements.closeForm) elements.closeForm.style.display = 'block';
+                if (elements.selectedPrice) elements.selectedPrice.value = '2.99$';
+                
+                if (contactSection) {
+                    contactSection.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+
+            document.getElementById('closeForm').addEventListener('click', function() {
+                const elements = {
+                    textBefore: document.getElementById('text-before'),
+                    secondPrice: document.getElementById('second-price'),
+                    textAfter: document.getElementById('text-after'),
+                    priceBefore: document.getElementById('price-before'),
+                    mainPrice: document.getElementById('main-price'),
+                    closeForm: document.getElementById('closeForm'),
+                    selectedPrice: document.getElementById('selectedPrice')
+                };
+
+                if (elements.textBefore) elements.textBefore.style.display = 'block';
+                if (elements.secondPrice) elements.secondPrice.style.display = 'none';
+                if (elements.textAfter) elements.textAfter.style.display = 'none';
+                if (elements.priceBefore) elements.priceBefore.style.display = 'block';
+                if (elements.mainPrice) elements.mainPrice.style.display = 'none';
+                if (elements.closeForm) elements.closeForm.style.display = 'none';
+                if (elements.selectedPrice) elements.selectedPrice.value = '';
+            });
+
+            // Плавный скролл для всех навигационных ссылок
+            document.querySelectorAll('.nav-links a, #menu a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetSection = document.getElementById(targetId);
+                    
+                    if(targetSection) {
+                        targetSection.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+
+                    // Закрываем бургер-меню если оно открыто
+                    if(menu && menu.classList.contains('menu-open')) {
+                        menu.classList.remove('menu-open');
+                        menuBtn.style.display = 'block';
+                    }
+                });
+            });
+
+            // Бургер-меню
+            if(menuBtn && closeBtn && menu) {
+                menuBtn.addEventListener('click', () => {
+                    menu.classList.add('menu-open');
+                    menuBtn.style.display = 'none';
+                });
+
+                closeBtn.addEventListener('click', () => {
+                    menu.classList.remove('menu-open');
+                    menuBtn.style.display = 'block';
+                });
+            }
+
+            // Обработчик формы
+            if(priceForm) {
+                priceForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const formData = new FormData(this);
+                    
+                    fetch(this.action, {
+                        method: 'POST',
+                        body: formData
+                    }).then(response => {
+                        if(response.ok) {
+                            alert('Данные успешно отправлены!');
+                            this.reset();
+                            
+                            const elements = {
+                                textBefore: document.getElementById('text-before'),
+                                secondPrice: document.getElementById('second-price'),
+                                textAfter: document.getElementById('text-after'),
+                                priceBefore: document.getElementById('price-before'),
+                                mainPrice: document.getElementById('main-price'),
+                                closeForm: document.getElementById('closeForm'),
+                                selectedPrice: document.getElementById('selectedPrice')
+                            };
+
+                            if (elements.textBefore) elements.textBefore.style.display = 'block';
+                            if (elements.secondPrice) elements.secondPrice.style.display = 'none';
+                            if (elements.textAfter) elements.textAfter.style.display = 'none';
+                            if (elements.priceBefore) elements.priceBefore.style.display = 'block';
+                            if (elements.mainPrice) elements.mainPrice.style.display = 'none';
+                            if (elements.closeForm) elements.closeForm.style.display = 'none';
+                            if (elements.selectedPrice) elements.selectedPrice.value = '';
+                        }
+                    });
+                });
+            }
+
+            // Smooth scroll для кнопок CTA
+            document.querySelectorAll('a.cta-btn[href="#contact"]').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if(contactSection) {
+                        contactSection.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        });
+</script>
+</body>
+</html>
